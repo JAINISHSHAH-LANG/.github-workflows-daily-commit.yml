@@ -1,0 +1,27 @@
+name: Daily Commit Workflow
+
+on:
+  schedule:
+    - cron: '17 10 * * *'  # Runs every day at 10:17 UTC (adjust as needed)
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create a dummy file to commit
+        run: |
+          echo "Commit made at $(date)" >> daily_commit.log
+
+      - name: Commit and Push Changes - 24f1002326@ds.study.iitm.ac.in
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "24f1002326@ds.study.iitm.ac.in"
+          git add daily_commit.log
+          git commit -m "Daily commit from GitHub Actions"
+          git push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
